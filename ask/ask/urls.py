@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 urlpatterns = [
-    url(r'^$', test, name='test'),
+    #url(r'^$', test, name='test'),
     url(r'^login/$', test, name='test'),
     url(r'^signup/$', test, name='test'),
     url(r'^question/\d+/', test, name='test'),
