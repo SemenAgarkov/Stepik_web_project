@@ -1,5 +1,5 @@
 sudo /etc/init.d/mysql start
-mysql -uroot -e "CREATE DATABASE stepik_web;"
-mysql -uroot -e "CREATE USER 'box@localhost' IDENTIFIED BY 'stepik';"
-mysql -uroot -e "GRANT ALL ON stepik_web.* TO 'box@localhost';"
-mysql -uroot -e "FLUSH PRIVILEGES;"
+mysql -uroot -e "create database stepic_web;"
+mysql -uroot -e "grant all privileges on stepic_web.* to 'box'@'localhost' with grant option;"
+~/web/ask/manage.py makemigrations
+~/web/ask/manage.py migrate
