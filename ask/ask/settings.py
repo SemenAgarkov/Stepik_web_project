@@ -25,7 +25,7 @@ SECRET_KEY = 'i_pq(dk=b&m*!b7*c7d!_9wl#l+8!srulpo=&=)01nipdk&3e)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
