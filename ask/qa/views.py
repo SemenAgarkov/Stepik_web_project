@@ -23,15 +23,14 @@ def index(request):
              'questions': page.object_list,
              'page': page,})
 
-def questions(request, num):
+def question(request, num):
     try:
         q = Question.objects.get(id=num)
     except Question.DoesNotExist:
         raise Http404
 
     return render(request, 'question.html',
-                  {'question': q,
-                    'form': form,})
+                  {'question': q,})
 
 
 
