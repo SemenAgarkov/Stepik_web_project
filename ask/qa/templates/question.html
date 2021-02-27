@@ -13,5 +13,16 @@
         <li>{{ answer }}, {{ answer.author_id }}</li>
     {% endfor %}
     </ul>
+    <hr>
+    <form method="post" action="{{ question.get_url }}">
+        <fieldset>
+{% csrf_token %}
+{{ form.as_p }}
+        </fieldset>
+        <button type="submit">Ответить</button>
+    </form>
+    <hr>
+    <div><a href="/ask/">Ask a new question</a></div>
+    <div><a href="/">Return to main page</a></div>
 </body>
 </html>
