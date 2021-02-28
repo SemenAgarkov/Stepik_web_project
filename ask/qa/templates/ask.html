@@ -2,17 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Ask a new question</title>
+    <title>Ask a new question!</title>
 </head>
 <body>
-    <form class="form-horizontal" method="post" action="/ask/">
-        <fieldset>
-            {% csrf_token %}
-            {{ form.as_p}}
-    </fieldset>
-    <div class="form-actions">
-    <button type="submit" class="btn btn-primary">Сохранить</button>
-    </div>
-    </form>
+	<form action="/ask/" method="post">
+   		 {% csrf_token %}
+   		 {{ form.as_p }}
+    		<input type="submit" value="Submit">
+	</form>
 </body>
 </html>
