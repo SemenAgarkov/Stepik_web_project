@@ -40,8 +40,6 @@ def question(request, num):
                   {'question': q,
                    'form': form,})
 
-
-
 def popular(request):
     try:
         page = int(request.GET.get("page"))
@@ -69,5 +67,3 @@ def ask(request):
     else:
         form = AskForm()
     return render(request, 'ask.html', {'form': form, })
-
-def
