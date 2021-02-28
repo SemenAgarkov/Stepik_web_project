@@ -1,6 +1,6 @@
 from django import forms
 
-from qa.models import Question, Answer
+from qa.models import Question, Answer, User
 
 class AnswerForm(forms.Form):
     text = forms.CharField(widget=forms.Textarea)
