@@ -6,12 +6,12 @@
 </head>
 <body>
     <form method="post" action="/ask/">
-            <fieldset>
-{% csrf_token %}
-{{ form.as_p }}
+        <fieldset>
+	    {% csrf_token %}
+	    {{ form.as_p }}
         </fieldset>
-            <button type="submit">Сохранить</button>
-        </form>
-        <div><a href="/">Return to main page</a></div>
+        <button type="submit">Сохранить</button>
+    </form>
+    <div><a href="/">Return to main page</a></div>
 </body>
 </html>
