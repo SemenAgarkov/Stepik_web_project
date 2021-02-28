@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.core.paginator import Paginator
 from qa.models import Question, Answer
 from qa.forms import AskForm, AnswerForm
+from django.contrib.auth.models import User
 
 def test(request, *args, **kwargs):
     return HttpResponse('OK')
@@ -24,7 +25,7 @@ def index(request):
              'questions': page.object_list,
              'page': page,})
 
-def question(request, num):
+def question(request, num,):
     try:
         q = Question.objects.get(id=num)
     except Question.DoesNotExist:
@@ -32,14 +33,15 @@ def question(request, num):
     if request.method == "POST":
         form = AnswerForm(request.POST)
         if form.is_valid():
+            form._user = User.objects.get(id=1)
             _ = form.save()
             url = q.get_url()
-        return HttpResponseRedirect(url)
+            return HttpResponseRedirect(url)
     else:
-        form = AnswerForm()
-    return render(request, 'question.html',
-                  {'question': q,
-                   'form': form,})
+        form = AnswerForm(initial={'question': q.id})
+
+    return render(request, 'question.html', {'question': q,
+                                             'form': form,})
 
 def popular(request):
     try:
@@ -62,9 +64,10 @@ def ask(request):
     if request.method == "POST":
         form = AskForm(request.POST)
         if form.is_valid():
+            form._user = User.objects.get(id=1)
             post = form.save()
             url = post.get_url()
-        return HttpResponseRedirect(url)
+            return HttpResponseRedirect(url)
     else:
         form = AskForm()
-    return render(request, 'ask.html', {'form': form, })
+    return render(request, 'ask.html', {'form': form,}
