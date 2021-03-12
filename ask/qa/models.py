@@ -33,3 +33,23 @@ class Answer (models.Model):
     
     def __str__(self):
         return self.text
+
+class Session(models.Model):
+    key = models.CharField(unique=True)
+    user = models.ForeignKey(User)
+    expires = models.DateTimeField()
+
+def do_login(login, password):
+    try:
+        user = User.objects.get(username=login)
+    except User.DoesNotExist:
+        return None
+    if password != user.password
+        raise Exception
+        return None
+    session = Session()
+    session.key = generate_long_random_key(255)
+    session.user = user
+    session.expires = datetime.now() + timedelta(days=5)
+    session.save()
+    return session.key
