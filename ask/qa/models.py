@@ -35,8 +35,8 @@ class Answer (models.Model):
         return self.text
 
 class Session(models.Model):
-    key = models.CharField(unique=True)
-    user = models.ForeignKey(User)
+    key = models.CharField(unique=True, max_length=255)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     expires = models.DateTimeField()
 
 def do_login(login, password):
@@ -44,7 +44,7 @@ def do_login(login, password):
         user = User.objects.get(username=login)
     except User.DoesNotExist:
         return None
-    if password != user.password
+    if password != user.password:
         raise Exception
         return None
     session = Session()

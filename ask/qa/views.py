@@ -88,8 +88,8 @@ def signup(request):
             url = '/'
             return HttpResponseRedirect(url)
     else:
-        form = SignUpForm()
-    return render(request, 'qa/signup.html', {
+        form = SignupForm()
+    return render(request, 'signup.html', {
         'form': form,
     })
 
@@ -109,7 +109,8 @@ def login(request):
             return response
         else:
             error = u'Wrong login / password'
-    return render(request, 'qa/login.html', {'error': error, 'form': form })
+    form = LoginForm()
+    return render(request, 'login.html', {'error': error, 'form': form })
 
 '''
 def do_login(username, password):
