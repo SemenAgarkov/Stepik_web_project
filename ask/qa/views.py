@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.paginator import Paginator
-from django.contrib.auth import authenticate, login
+
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout, get_user
 
 from qa.models import Question, Answer, Session, do_login
 from qa.forms import AnswerForm, AskForm, SignupForm, LoginForm
@@ -84,47 +86,35 @@ def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
-            question = form.save()
-            url = '/'
-            return HttpResponseRedirect(url)
+            form.clean()
+            user = form.save()
+            login(request, user)
+            return HttpResponseRedirect('/')
     else:
         form = SignupForm()
-    return render(request, 'signup.html', {
-        'form': form,
-    })
+    return render(request, 'signup.html', {'form': form})
 
-def login(request):
+def check_login(login, password):
+    try:
+        user = User.objects.get(username=login)
+    except Exception:
+        return None
+    if user.password != password:
+        return None
+    return user
+
+def user_login(request):
     error = ''
     if request.method == 'POST':
-        login = request.POST.get('username')
-        password = request.POST.get('password')
-        url = '/'
-        sessid = do_login(login, password)
-        if sessid:
-            response = HttpResponseRedirect(url)
-            response.set_cookie('sessid', sessid,
-                httponly=True,
-                expires = datetime.now()+timedelta(days=5)
-                )
-            return response
+        username = request.POST['username']
+        password = request.POST['password']
+        user = check_login(username, password)
+        url = request.POST.get('continue', '/')
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect(url)
         else:
             error = u'Wrong login / password'
-    form = LoginForm()
-    return render(request, 'login.html', {'error': error, 'form': form })
 
-'''
-def do_login(username, password):
-    try:
-        user = User.objects.get(login=username)
-    except User.DoesNotExist:
-        return None
-    hashed_pass = salt_and_hash(password)
-    if user.password != hashed_pass
-        return None
-    session = Session()
-    session.key = generate_long_random_key()
-    session.user = user
-    session.expires = datetime.now() + timedelta(days=5)
-    session.save()
-    return session.key
-'''
+    return render(request, 'login.html', {'form': LoginForm(), 'error': error})
+
